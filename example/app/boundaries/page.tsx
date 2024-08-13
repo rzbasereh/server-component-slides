@@ -1,6 +1,7 @@
 import getComponentType from '@/app/get-component-Type';
 import Header from '@/app/boundaries/Header';
 import StatelessArticle from '@/app/boundaries/StatelessArticle';
+import StatefulArticle from '@/app/boundaries/StatefulArticle';
 
 console.log('App', getComponentType());
 
