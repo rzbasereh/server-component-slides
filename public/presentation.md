@@ -1,4 +1,4 @@
-# Server Component
+# Server Components
 
 
 
@@ -81,11 +81,11 @@ export default function Homepage({ data }) {
 
 * Each meta-framework came up with its own approach. Next.js has one approach, Gatsby has another, Remix has yet another. It hasn't been standardized.
 
-* *All of our React components will always hydrate on the client, even when there's no need for them to do so.
+* All of our React components will always hydrate on the client, even when there's no need for them to do so.
 
 
 ### And
-The real solution is "React Server Components"
+The solution is "React Server Components"
 
 
 
@@ -94,9 +94,11 @@ The real solution is "React Server Components"
 
 ```jsx
 import db from 'imaginary-db';
+
 async function Homepage() {
   const link = db.connect('localhost', 'root', 'passw0rd');
   const data = await db.query(link, 'SELECT * FROM products');
+  
   return (
     <>
       <h1>Trending Products</h1>
@@ -164,15 +166,14 @@ function HitCounter({ hits }) {
 ```
 
 
-<img src="component-tree-1.png" style="height: 50vh">
+<div style="height: 50vh;">
+<img class="fragment absolute" src="component-tree-1.png" style="height: 50vh; left: 25%">
+<img class="fragment absolute" src="component-tree-2.png" style="height: 50vh; left: 25%">
+<img class="fragment absolute" src="component-tree-3.png" style="height: 50vh; left: 25%">
+</div>
 
 
-<img src="component-tree-2.png" style="height: 50vh">
-
-
-<img src="component-tree-3.png" style="height: 50vh">
-
-All of the components within this boundary are implicitly converted to Client Components. Even though components like HitCounter don't have the 'use client' directive, they'll still hydrate/render on the client in this particular situation.
+All of the components within this boundary are **implicitly** converted to *Client Components*. Even though components like `HitCounter` don't have the 'use client' directive, they'll still hydrate/render on the client in this particular situation.
 
 
 What about this ?!
@@ -222,6 +223,8 @@ function ColorProvider({ children }) {
 }
 ```
 
+
+And
 ```jsx
 // /components/Homepage.js
 import Header from './Header';
@@ -237,3 +240,7 @@ function Homepage() {
   );
 }
 ```
+
+
+
+## Let's code :)
