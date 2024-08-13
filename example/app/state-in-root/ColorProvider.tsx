@@ -13,7 +13,7 @@ export default function ColorProvider(props: PropsType) {
     const [colorTheme, setColorTheme] = useState('light');
 
     return (
-        <div>
+        <div className='border flex gap-2 p-2 w-fit'>
             {props.children}
         </div>
     );
