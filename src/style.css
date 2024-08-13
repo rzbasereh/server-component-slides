@@ -2301,7 +2301,7 @@ code.hljs {
   padding:3px 5px
 }
 .hljs {
-  background:#282936;
+  background:hsl(208.4, 31.1%, 12%);
   color:#e9e9f4
 }
 .hljs ::-moz-selection,
@@ -2952,7 +2952,7 @@ button {
   z-index:99
 }
 .reveal {
-  background-color:#1a1626;
+  background-color:#0e141b;
   font-size:30px
 }
 .reveal .controls button,

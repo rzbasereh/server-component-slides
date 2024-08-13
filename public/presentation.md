@@ -116,6 +116,124 @@ export default Homepage;
 Server Components **never** re-render.
 
 
+![img.png](component-types.png)
+
+* *React Server Components* is the name for this new paradigm.
+
+* In this new paradigm, the "standard" React components we know and love have been rebranded as *Client Components*. It's a new name for an old thing.
+
+* This new paradigm introduces a new type of component, *Server Components*. These new components render exclusively on the server. Their code isn't included in the JS bundle, and so they never hydrate or re-render.
+
+
 All components are assumed to be Server Components by default.
 
 
+```jsx
+'use client';
+
+import React from 'react';
+
+function Counter() {
+  const [count, setCount] = React.useState(0);
+
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      Current value: {count}
+    </button>
+  );
+}
+
+export default Counter;
+```
+
+That standalone string at the top, `use client`, is how we signal to React that the component(s) in this file are *Client Components*, that they should be included in our JS bundles so that they can re-render on the client.
+
+
+*Client Components* can **only import** other *Client Components*.
+
+
+what happens when the props change?
+```jsx
+function HitCounter({ hits }) {
+  return (
+    <div>
+      Number of hits: {hits}
+    </div>
+  );
+}
+```
+
+
+<img src="component-tree-1.png" style="height: 50vh">
+
+
+<img src="component-tree-2.png" style="height: 50vh">
+
+
+<img src="component-tree-3.png" style="height: 50vh">
+
+All of the components within this boundary are implicitly converted to Client Components. Even though components like HitCounter don't have the 'use client' directive, they'll still hydrate/render on the client in this particular situation.
+
+
+What about this ?!
+```jsx
+'use client';
+
+import { DARK_COLORS, LIGHT_COLORS } from '@/constants.js';
+import Header from './Header';
+import MainContent from './MainContent';
+
+function Homepage() {
+  const [colorTheme, setColorTheme] = React.useState('light');
+  
+  const colorVariables = colorTheme === 'light'
+    ? LIGHT_COLORS
+    : DARK_COLORS;
+  
+  return (
+    <body style={colorVariables}>
+      <Header />
+      <MainContent />
+    </body>
+  );
+}
+```
+
+
+Solution
+```jsx
+// /components/ColorProvider.js
+'use client';
+
+import { DARK_COLORS, LIGHT_COLORS } from '@/constants.js';
+
+function ColorProvider({ children }) {
+  const [colorTheme, setColorTheme] = React.useState('light');
+  
+  const colorVariables = colorTheme === 'light'
+    ? LIGHT_COLORS
+    : DARK_COLORS;
+  
+  return (
+    <body style={colorVariables}>
+      {children}
+    </body>
+  );
+}
+```
+
+```jsx
+// /components/Homepage.js
+import Header from './Header';
+import MainContent from './MainContent';
+import ColorProvider from './ColorProvider';
+
+function Homepage() {
+  return (
+    <ColorProvider>
+      <Header />
+      <MainContent />
+    </ColorProvider>
+  );
+}
+```
